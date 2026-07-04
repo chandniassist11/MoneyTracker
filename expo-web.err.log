@@ -1,0 +1,13 @@
+Node.js (v20.11.0) is outdated and unsupported. Please update to a newer Node.js LTS version (required: >=20.19.4)
+Go to: https://nodejs.org/en/download
+
+CommandError: It looks like you're trying to use web support but don't have the required
+dependencies installed.
+
+Install react-dom@19.2.3, react-native-web@^0.21.2 by running:
+
+npx expo install react-dom react-native-web
+
+If you're not using web, please ensure you remove the "web" string from the
+platforms array in the project Expo config.
+
