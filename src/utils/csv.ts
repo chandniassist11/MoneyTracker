@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
 import Papa from 'papaparse';
-import { File, Paths } from 'expo-file-system';
+import * as FileSystem from 'expo-file-system';
 import * as Sharing from 'expo-sharing';
 import { Transaction, Account, Category } from '../db/database';
 
@@ -54,10 +54,12 @@ export const exportTransactionsToCSV = async (
     link.click();
     document.body.removeChild(link);
   } else {
-    const file = new File(Paths.document, filename);
-    file.write(csvString);
+    const fileUri = (FileSystem.documentDirectory || '') + filename;
+    await FileSystem.writeAsStringAsync(fileUri, csvString, {
+      encoding: FileSystem.EncodingType.UTF8,
+    });
     if (await Sharing.isAvailableAsync()) {
-      await Sharing.shareAsync(file.uri);
+      await Sharing.shareAsync(fileUri, { mimeType: 'text/csv', dialogTitle: 'Export Transactions' });
     } else {
       throw new Error('Sharing is not available on this platform.');
     }
